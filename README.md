@@ -98,11 +98,9 @@ MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，�
 
 ### 主要关联项目
 
-**目前项目组非常缺前端大佬，若您有相关经验，欢迎加入我们！**
-
 - 全新框架：[MaaFramework](https://github.com/MaaXYZ/MaaFramework)
-- [作业站](https://prts.plus) 前端：[maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
-- [作业站](https://prts.plus) 后端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
+- [作业站](https://prts.plus) 前端：[zoot-plus-frontend](https://github.com/ZOOT-Plus/zoot-plus-frontend)
+- [作业站](https://prts.plus) 后端：[ZootPlusBackend](https://github.com/ZOOT-Plus/ZootPlusBackend)
 - [官网](https://maa.plus)：[前端](https://github.com/MaaAssistantArknights/maa-website)
 - 深度学习：[MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
@@ -153,11 +151,11 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 - 空白环境，裸 Linux 容器（默认）
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2Fdevcontainer.json)
-  
+
 - 轻量环境，适合文档站前端开发
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F0%2Fdevcontainer.json)
-  
+
 - 全量环境，适合 MAA Core 相关开发
 
   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights?devcontainer_path=.devcontainer%2F1%2Fdevcontainer.json)

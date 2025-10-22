@@ -93,6 +93,40 @@
         "next": ["#next"],
         "maxTimes": 20
     },
+    "SwitchTheme@ToggleSettingsMenu": {
+        "action": "ClickSelf",
+        "roi": [227, 327, 159, 152],
+        "next": ["SwitchTheme@ChangeTheme"]
+    },
+    "SwitchTheme@ChangeTheme": {
+        "action": "ClickSelf",
+        "roi": [563, 566, 132, 132],
+        "next": ["SwitchTheme@SelectLightTheme", "SwitchTheme@SwipeToLightTheme"]
+    },
+    "SwitchTheme@SelectLightTheme": {
+        "action": "ClickSelf",
+        "roi": [0, 99, 430, 180],
+        "next": ["SwitchTheme@ConfirmThemeChange"]
+    },
+    "SwitchTheme@SwipeToLightTheme": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [200, 170, 10, 10],
+        "rectMove": [200, 600, 10, 10],
+        "specialParams": [150, 0, 1, 1],
+        "postDelay": 500,
+        "next": ["SwitchTheme@SelectLightTheme", "SwitchTheme@SwipeToLightTheme"]
+    },
+    "SwitchTheme@ConfirmThemeChange": {
+        "action": "ClickSelf",
+        "roi": [1070, 620, 200, 90],
+        "next": ["SwitchTheme@ReturnTheme"]
+    },
+    "SwitchTheme@ReturnTheme": {
+        "baseTask": "ReturnButton",
+        "template": ["Return.png", "Return-White.png"],
+        "next": ["#next"]
+    },
     "StageTheme": {
         "action": "ClickSelf",
         "roi": [243, 598, 147, 122],
@@ -951,7 +985,8 @@
             "StartUpBegin@LoadingIcon",
             "StartUp@ReturnButtons#next",
             "StartUp@EndOfAction"
-        ]
+        ],
+        "onErrorNext": ["StartUpBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "GameStart": {
         "action": "ClickSelf",
@@ -1136,7 +1171,8 @@
             "ReturnButton@LoadingIcon",
             "ReturnButton@LoadingText",
             "CloseAnnos#next"
-        ]
+        ],
+        "onErrorNext": ["SwitchTheme@ToggleSettingsMenu"]
     },
     "FromStageSN": {
         "template": "StageSNReturnFlag.png",
@@ -1239,7 +1275,8 @@
     },
     "StageBegin": {
         "algorithm": "JustReturn",
-        "next": ["Fight@ReturnButtons#next", "Fight", "Fight@CloseAnnos#next"]
+        "next": ["Fight@ReturnButtons#next", "Fight", "Fight@CloseAnnos#next"],
+        "onErrorNext": ["StageBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "FightBegin": {
         "Docs": "Fight@前缀保证各种任务的Main可以自动寻到Fight",
@@ -1250,7 +1287,8 @@
             "Fight@UsePrts-StageSN",
             "Fight@StartButton1",
             "Fight@PRTS#next"
-        ]
+        ],
+        "onErrorNext": ["FightBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "LastOrCurBattleBegin": {
         "algorithm": "JustReturn",
@@ -1263,7 +1301,8 @@
             "Fight",
             "Fight@CloseAnnos#next",
             "Fight@PRTS#next"
-        ]
+        ],
+        "onErrorNext": ["LastOrCurBattleBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "UsePrts": {
         "action": "ClickSelf",
@@ -1712,7 +1751,8 @@
             "Recruit@ReturnButtons#next",
             "Recruit@CloseAnnos#next",
             "Recruit@OfflineConfirm"
-        ]
+        ],
+        "onErrorNext": ["RecruitBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Recruit": {
         "template": [
@@ -1795,7 +1835,8 @@
     },
     "MiningActivitiesBegin": {
         "algorithm": "JustReturn",
-        "next": ["MiningActivitiesReturnHome@ReturnButtons#next", "MiningActivitiesReturnHome", "MiningActivities"]
+        "next": ["MiningActivitiesReturnHome@ReturnButtons#next", "MiningActivitiesReturnHome", "MiningActivities"],
+        "onErrorNext": ["MiningActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "MiningActivitiesReturnHome": {
         "baseTask": "Home",
@@ -1843,7 +1884,8 @@
     },
     "OrundumActivitiesBegin": {
         "algorithm": "JustReturn",
-        "next": ["OrundumActivitiesReturnHome@ReturnButtons#next", "OrundumActivitiesReturnHome", "OrundumActivities"]
+        "next": ["OrundumActivitiesReturnHome@ReturnButtons#next", "OrundumActivitiesReturnHome", "OrundumActivities"],
+        "onErrorNext": ["OrundumActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "OrundumActivitiesReturnHome": {
         "baseTask": "Home",
@@ -1929,7 +1971,8 @@
             "RecruitingActivitiesReturnHome@ReturnButtons#next",
             "RecruitingActivitiesReturnHome",
             "RecruitingActivities"
-        ]
+        ],
+        "onErrorNext": ["RecruitingActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "RecruitingActivitiesReturnHome": {
         "baseTask": "Home",
@@ -2014,7 +2057,8 @@
             "SpecialAccessActivitiesReturnHome@ReturnButtons#next",
             "SpecialAccessActivitiesReturnHome",
             "SpecialAccessActivities"
-        ]
+        ],
+        "onErrorNext": ["SpecialAccessActivitiesBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "SpecialAccessActivitiesReturnHome": {
         "baseTask": "Home",
@@ -2075,7 +2119,8 @@
             "DailyTask",
             "WeeklyTask",
             "Award@CloseAnnos#next"
-        ]
+        ],
+        "onErrorNext": ["AwardBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Award": {
         "template": [
@@ -2093,6 +2138,7 @@
             "JieGarden/Task.png",
             "AveMujica/Task.png"
         ],
+        "templThreshold": 0.9,
         "maskRange": [1, 255],
         "action": "ClickSelf",
         "roi": [700, 530, 230, 190],
@@ -2113,7 +2159,7 @@
         "action": "ClickRect",
         "specificRect": [600, 630, 60, 60],
         "next": ["CloseTaskAwardDouble"],
-        "postDelay": 500
+        "postDelay": 1000
     },
     "CloseTaskAwardDouble": {
         "Doc": "有时候奖励出的太慢了，所以这里多点一次",
@@ -2121,7 +2167,8 @@
         "action": "ClickRect",
         "specificRect": [600, 630, 60, 60],
         "next": ["WeeklyTask", "AwardFinished", "CloseTaskAwardDouble"],
-        "maxTimes": 10
+        "maxTimes": 10,
+        "postDelay": 500
     },
     "AwardFinished": {
         "action": "Stop",
@@ -2141,7 +2188,8 @@
     },
     "MailBegin": {
         "algorithm": "JustReturn",
-        "next": ["MailReturnToHome@ReturnButtons#next", "MailReturnToHome", "ReceiveMail"]
+        "next": ["MailReturnToHome@ReturnButtons#next", "MailReturnToHome", "ReceiveMail"],
+        "onErrorNext": ["MailBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "MailReturnToHome": {
         "baseTask": "Home",
@@ -2203,7 +2251,8 @@
             "VisitNextBlack",
             "Visit@ReturnButtons#next",
             "Visit@CloseAnnos#next"
-        ]
+        ],
+        "onErrorNext": ["VisitBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Visit": {
         "template": [
@@ -2253,19 +2302,38 @@
     },
     "VisitNext": {
         "action": "ClickSelf",
-        "roi": [1080, 570, 195, 130],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [8, 200, 205],
+                [13, 255, 220]
+            ]
+        ],
+        "roi": [1080, 570, 200, 130],
         "next": ["VisitLimited", "VisitNext", "VisitNextBlack", "VisitNextOcr"]
+    },
+    "VisitNextBlack": {
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 0, 40],
+                [5, 5, 80]
+            ]
+        ],
+        "roi": [1080, 570, 200, 130],
+        "next": ["Home@ReturnButtons#next"]
     },
     "VisitNextOcr": {
         "algorithm": "OcrDetect",
         "text": ["访问下位"],
         "action": "ClickSelf",
-        "roi": [1080, 570, 195, 130],
+        "roi": [1080, 570, 200, 130],
         "next": ["VisitLimited", "VisitNext", "VisitNextBlack", "VisitNextOcr"]
     },
     "MallBegin": {
         "algorithm": "JustReturn",
-        "next": ["Mall@ReturnButtons#next", "Mall", "Mall@CloseAnnos#next"]
+        "next": ["Mall@ReturnButtons#next", "Mall", "Mall@CloseAnnos#next"],
+        "onErrorNext": ["MallBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Mall": {
         "doc": "请同步更新 Store@EnterStore 的 template",
@@ -2327,10 +2395,6 @@
         "algorithm": "OcrDetect",
         "text": ["今日参与", "已达上限"],
         "roi": [900, 50, 375, 140],
-        "next": ["Home@ReturnButtons#next"]
-    },
-    "VisitNextBlack": {
-        "roi": [1080, 570, 195, 130],
         "next": ["Home@ReturnButtons#next"]
     },
     "Home": {
@@ -2536,7 +2600,8 @@
             "Infrast@ReturnButtons#next",
             "Infrast@CloseAnnos#next",
             "Infrast@OfflineConfirm"
-        ]
+        ],
+        "onErrorNext": ["InfrastBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Infrast@MainThemes": {
         "next": ["InfrastBegin#next"]
@@ -2640,12 +2705,12 @@
         "roi": [1180, 500, 100, 100],
         "maxTimes": 1,
         "Doc": "不同于贸易站，制造站的无人机是一次性全用掉的，所以只执行一次就够了",
-        "next": ["DroneMax", "DroneConfirm", "DroneCancel"]
+        "next": ["#self", "DroneMax", "DroneConfirm", "DroneCancel"]
     },
     "DroneAssistTrade": {
         "action": "ClickSelf",
         "roi": [250, 430, 460, 120],
-        "next": ["DroneMax", "DroneConfirm", "DroneCancel"]
+        "next": ["#self", "DroneMax", "DroneConfirm", "DroneCancel"]
     },
     "DroneMax": {
         "action": "ClickSelf",
@@ -4338,7 +4403,8 @@
             "DepotAllTab",
             "DepotMaterialTabClicked",
             "DepotEnter@ReturnButtons#next"
-        ]
+        ],
+        "onErrorNext": ["DepotBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "DepotEnter": {
         "action": "ClickSelf",
@@ -4433,7 +4499,8 @@
             "OperBoxSortTabSelect",
             "OperBoxRoleTab",
             "OperBoxEnter@ReturnButtons#next"
-        ]
+        ],
+        "onErrorNext": ["OperBoxBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "OperBoxEnter": {
         "template": [
@@ -5010,7 +5077,8 @@
             "GachaLastOnceResult",
             "GachaLastTenTimesResult1",
             "GachaLastTenTimesResult2"
-        ]
+        ],
+        "onErrorNext": ["GachaBegin@SwitchTheme@ToggleSettingsMenu"]
     },
     "GachaEnter": {
         "action": "ClickSelf",
@@ -5114,7 +5182,8 @@
     "Store@Begin": {
         "doc": "绿票、黄票商店",
         "algorithm": "JustReturn",
-        "next": ["Store@EnterStore", "Store@EnterTicketStore"]
+        "next": ["Store@EnterStore", "Store@EnterTicketStore"],
+        "onErrorNext": ["Store@Begin@SwitchTheme@ToggleSettingsMenu"]
     },
     "Store@EnterStore": {
         "baseTask": "Mall",

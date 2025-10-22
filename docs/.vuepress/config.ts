@@ -64,8 +64,6 @@ export default defineUserConfig({
     contributors: false,
     changelog: false,
 
-    blog: false,
-
     cache: 'filesystem',
 
     search: DocSearchConfig,
@@ -75,6 +73,7 @@ export default defineUserConfig({
     },
 
     markdown: {
+      annotation: true,
       image: {
         lazyload: true,
         mark: true,

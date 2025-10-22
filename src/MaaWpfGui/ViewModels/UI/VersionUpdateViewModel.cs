@@ -999,6 +999,7 @@ public class VersionUpdateViewModel : Screen
         if (response is null)
         {
             _logger.Error("mirrorc failed");
+            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = true;
             return CheckUpdateRetT.NetworkError;
         }
 
@@ -1016,6 +1017,7 @@ public class VersionUpdateViewModel : Screen
 
         if (data is null)
         {
+            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = true;
             return CheckUpdateRetT.UnknownError;
         }
 
@@ -1038,6 +1040,21 @@ public class VersionUpdateViewModel : Screen
             {
                 case MirrorChyanErrorCode.KeyExpired:
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkExpired"));
+
+                    SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = false;
+
+                    // 有人会第一次就填过期的 cdk 吗
+                    if (SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime == 0)
+                    {
+                        SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime = 1;
+                    }
+
+                    // 如果上次查出来的时间比现在的还新，说明换了 cdk，重置过期时间
+                    if (!SettingsViewModel.VersionUpdateSettings.IsMirrorChyanCdkExpired)
+                    {
+                        SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime = mirrorChyanCdkExpired ?? 1;
+                    }
+
                     break;
                 case MirrorChyanErrorCode.KeyInvalid:
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkInvalid"));
@@ -1048,6 +1065,9 @@ public class VersionUpdateViewModel : Screen
                     break;
                 case MirrorChyanErrorCode.KeyMismatched:
                     ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkMismatched"));
+                    break;
+                case MirrorChyanErrorCode.KeyBlocked:
+                    ToastNotification.ShowDirect(LocalizationHelper.GetString("MirrorChyanCdkBlocked"));
                     break;
                 case MirrorChyanErrorCode.InvalidParams:
                 case MirrorChyanErrorCode.ResourceNotFound:
@@ -1152,7 +1172,7 @@ public class VersionUpdateViewModel : Screen
 
     private static ObservableCollection<LogItemViewModel>? _logItemViewModels;
 
-    public static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1)
+    public static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1, string? toolTip = null)
     {
         string progress = $"[{value / 1048576.0:F}MiB/{maximum / 1048576.0:F}MiB ({value * 100.0 / maximum:F}%)";
 
@@ -1162,12 +1182,12 @@ public class VersionUpdateViewModel : Screen
             ? $"{speedInKiBPerSecond / 1024.0:F} MiB/s"
             : $"{speedInKiBPerSecond:F} KiB/s";
 
-        OutputDownloadProgress(progress + $" {speedDisplay}");
+        OutputDownloadProgress(progress + $" {speedDisplay}", toolTip: toolTip);
     }
 
     private static bool _globalSource = true;
 
-    public static void OutputDownloadProgress(string output, bool downloading = true, bool? globalSource = null)
+    public static void OutputDownloadProgress(string output, bool downloading = true, bool? globalSource = null, string? toolTip = null)
     {
         globalSource ??= _globalSource;
         _globalSource = globalSource.Value;
@@ -1199,10 +1219,9 @@ public class VersionUpdateViewModel : Screen
             fullText = output;
         }
 
-        var log = new LogItemViewModel(fullText, UiLogColor.Download);
-
         Execute.OnUIThread(() =>
         {
+            var log = new LogItemViewModel(fullText, UiLogColor.Download, toolTip: toolTip?.CreateTooltip());
             if (_logItemViewModels.Count > 0 && _logItemViewModels[0].Color == UiLogColor.Download)
             {
                 if (!string.IsNullOrEmpty(output))

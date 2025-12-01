@@ -69,7 +69,6 @@ bool proc_data(
         key = iter->second;
     }
     else {
-        key = TileKey::Invalid;
         Log.warn("Unknown tile type:", tile.tileKey);
     }
 
@@ -86,9 +85,6 @@ bool proc_data(
 asst::TilePack::result_type asst::TilePack::calc_(const Map::Level& level, double shift_x, double shift_y)
 {
     LogTraceFunction;
-
-    std::vector<std::vector<cv::Point2d>> pos;
-    std::vector<std::vector<Map::Tile>> tiles;
 
     result_type result;
     const int w = level.get_width();
